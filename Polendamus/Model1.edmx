@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="polendamusModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="polendamusModelStoreContainer">
+          <EntitySet Name="Alergias" EntityType="polendamusModel.Store.Alergias" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Bocadillos" EntityType="polendamusModel.Store.Bocadillos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Dibujos" EntityType="polendamusModel.Store.Dibujos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Niveles" EntityType="polendamusModel.Store.Niveles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Predicciones" EntityType="polendamusModel.Store.Predicciones" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Provincias" EntityType="polendamusModel.Store.Provincias" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UrlsTiempo" EntityType="polendamusModel.Store.UrlsTiempo" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Nivel_Alergia" Association="polendamusModel.Store.FK_Nivel_Alergia">
+            <End Role="Alergias" EntitySet="Alergias" />
+            <End Role="Niveles" EntitySet="Niveles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nivel_Provincia" Association="polendamusModel.Store.FK_Nivel_Provincia">
+            <End Role="Provincias" EntitySet="Provincias" />
+            <End Role="Niveles" EntitySet="Niveles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Predicciones_Provincia" Association="polendamusModel.Store.FK_Predicciones_Provincia">
+            <End Role="Provincias" EntitySet="Provincias" />
+            <End Role="Predicciones" EntitySet="Predicciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_URL_Provincia" Association="polendamusModel.Store.FK_URL_Provincia">
+            <End Role="Provincias" EntitySet="Provincias" />
+            <End Role="UrlsTiempo" EntitySet="UrlsTiempo" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Alergias">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" />
+          <Property Name="EsArbol" Type="bit" />
+          <Property Name="Visible" Type="bit" />
+        </EntityType>
+        <EntityType Name="Bocadillos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Texto" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="EsHoy" Type="bit" Nullable="false" />
+          <Property Name="Estado" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="EsGet" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dibujos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="EsHoy" Type="bit" Nullable="false" />
+          <Property Name="Estado" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Niveles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id_Provincia" Type="int" Nullable="false" />
+          <Property Name="Id_Planta" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Descripcion" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Predicciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id_Provincia" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Provincias">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="UrlsTiempo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="url" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="Id_Provincia" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Nivel_Alergia">
+          <End Role="Alergias" Type="polendamusModel.Store.Alergias" Multiplicity="1" />
+          <End Role="Niveles" Type="polendamusModel.Store.Niveles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alergias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Niveles">
+              <PropertyRef Name="Id_Planta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nivel_Provincia">
+          <End Role="Provincias" Type="polendamusModel.Store.Provincias" Multiplicity="1" />
+          <End Role="Niveles" Type="polendamusModel.Store.Niveles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Niveles">
+              <PropertyRef Name="Id_Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Predicciones_Provincia">
+          <End Role="Provincias" Type="polendamusModel.Store.Provincias" Multiplicity="1" />
+          <End Role="Predicciones" Type="polendamusModel.Store.Predicciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Predicciones">
+              <PropertyRef Name="Id_Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_URL_Provincia">
+          <End Role="Provincias" Type="polendamusModel.Store.Provincias" Multiplicity="1" />
+          <End Role="UrlsTiempo" Type="polendamusModel.Store.UrlsTiempo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UrlsTiempo">
+              <PropertyRef Name="Id_Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="polendamusModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="polendamusEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Alergias" EntityType="polendamusModel.Alergias" />
+          <EntitySet Name="Niveles" EntityType="polendamusModel.Niveles" />
+          <EntitySet Name="Predicciones" EntityType="polendamusModel.Predicciones" />
+          <EntitySet Name="Provincias" EntityType="polendamusModel.Provincias" />
+          <EntitySet Name="UrlsTiempo" EntityType="polendamusModel.UrlsTiempo" />
+          <AssociationSet Name="FK_Nivel_Planta" Association="polendamusModel.FK_Nivel_Planta">
+            <End Role="Alergias" EntitySet="Alergias" />
+            <End Role="Niveles" EntitySet="Niveles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nivel_Provincia" Association="polendamusModel.FK_Nivel_Provincia">
+            <End Role="Provincias" EntitySet="Provincias" />
+            <End Role="Niveles" EntitySet="Niveles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Predicciones_Provincia" Association="polendamusModel.FK_Predicciones_Provincia">
+            <End Role="Provincias" EntitySet="Provincias" />
+            <End Role="Predicciones" EntitySet="Predicciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_URL_Provincia" Association="polendamusModel.FK_URL_Provincia">
+            <End Role="Provincias" EntitySet="Provincias" />
+            <End Role="UrlsTiempo" EntitySet="UrlsTiempo" />
+          </AssociationSet>
+          <EntitySet Name="Bocadillos" EntityType="polendamusModel.Bocadillos" />
+          <EntitySet Name="Dibujos" EntityType="polendamusModel.Dibujos" />
+        </EntityContainer>
+        <EntityType Name="Alergias">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Descripcion" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Niveles" Relationship="polendamusModel.FK_Nivel_Planta" FromRole="Alergias" ToRole="Niveles" />
+          <Property Type="Boolean" Name="EsArbol" />
+          <Property Type="Boolean" Name="Visible" />
+        </EntityType>
+        <EntityType Name="Niveles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id_Provincia" Nullable="false" />
+          <Property Type="Int32" Name="Id_Planta" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Alergias" Relationship="polendamusModel.FK_Nivel_Planta" FromRole="Niveles" ToRole="Alergias" />
+          <NavigationProperty Name="Provincias" Relationship="polendamusModel.FK_Nivel_Provincia" FromRole="Niveles" ToRole="Provincias" />
+        </EntityType>
+        <EntityType Name="Predicciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id_Provincia" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Provincias" Relationship="polendamusModel.FK_Predicciones_Provincia" FromRole="Predicciones" ToRole="Provincias" />
+        </EntityType>
+        <EntityType Name="Provincias">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Niveles" Relationship="polendamusModel.FK_Nivel_Provincia" FromRole="Provincias" ToRole="Niveles" />
+          <NavigationProperty Name="Predicciones" Relationship="polendamusModel.FK_Predicciones_Provincia" FromRole="Provincias" ToRole="Predicciones" />
+          <NavigationProperty Name="UrlsTiempo" Relationship="polendamusModel.FK_URL_Provincia" FromRole="Provincias" ToRole="UrlsTiempo" />
+        </EntityType>
+        <EntityType Name="UrlsTiempo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="url" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="Id_Provincia" Nullable="false" />
+          <NavigationProperty Name="Provincias" Relationship="polendamusModel.FK_URL_Provincia" FromRole="UrlsTiempo" ToRole="Provincias" />
+        </EntityType>
+        <Association Name="FK_Nivel_Planta">
+          <End Type="polendamusModel.Alergias" Role="Alergias" Multiplicity="1" />
+          <End Type="polendamusModel.Niveles" Role="Niveles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alergias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Niveles">
+              <PropertyRef Name="Id_Planta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nivel_Provincia">
+          <End Type="polendamusModel.Provincias" Role="Provincias" Multiplicity="1" />
+          <End Type="polendamusModel.Niveles" Role="Niveles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Niveles">
+              <PropertyRef Name="Id_Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Predicciones_Provincia">
+          <End Type="polendamusModel.Provincias" Role="Provincias" Multiplicity="1" />
+          <End Type="polendamusModel.Predicciones" Role="Predicciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Predicciones">
+              <PropertyRef Name="Id_Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_URL_Provincia">
+          <End Type="polendamusModel.Provincias" Role="Provincias" Multiplicity="1" />
+          <End Type="polendamusModel.UrlsTiempo" Role="UrlsTiempo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UrlsTiempo">
+              <PropertyRef Name="Id_Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Bocadillos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Texto" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="EsHoy" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="EsGet" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dibujos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="EsHoy" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="polendamusModelStoreContainer" CdmEntityContainer="polendamusEntities" >
+          <EntitySetMapping Name="Alergias">
+            <EntityTypeMapping TypeName="polendamusModel.Alergias">
+              <MappingFragment StoreEntitySet="Alergias">
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+                <ScalarProperty Name="EsArbol" ColumnName="EsArbol" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Niveles">
+            <EntityTypeMapping TypeName="polendamusModel.Niveles">
+              <MappingFragment StoreEntitySet="Niveles">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Id_Planta" ColumnName="Id_Planta" />
+                <ScalarProperty Name="Id_Provincia" ColumnName="Id_Provincia" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Predicciones">
+            <EntityTypeMapping TypeName="polendamusModel.Predicciones">
+              <MappingFragment StoreEntitySet="Predicciones">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Id_Provincia" ColumnName="Id_Provincia" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provincias">
+            <EntityTypeMapping TypeName="polendamusModel.Provincias">
+              <MappingFragment StoreEntitySet="Provincias">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrlsTiempo">
+            <EntityTypeMapping TypeName="polendamusModel.UrlsTiempo">
+              <MappingFragment StoreEntitySet="UrlsTiempo">
+                <ScalarProperty Name="Id_Provincia" ColumnName="Id_Provincia" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bocadillos">
+            <EntityTypeMapping TypeName="polendamusModel.Bocadillos">
+              <MappingFragment StoreEntitySet="Bocadillos">
+                <ScalarProperty Name="EsGet" ColumnName="EsGet" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="EsHoy" ColumnName="EsHoy" />
+                <ScalarProperty Name="Texto" ColumnName="Texto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dibujos">
+            <EntityTypeMapping TypeName="polendamusModel.Dibujos">
+              <MappingFragment StoreEntitySet="Dibujos">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="EsHoy" ColumnName="EsHoy" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1" ZoomLevel="67" >
+        <EntityTypeShape EntityType="polendamusModel.Alergias" Width="1.5" PointX="0.75" PointY="1" Height="1.7879850260416672" />
+        <EntityTypeShape EntityType="polendamusModel.Niveles" Width="1.5" PointX="3" PointY="2.75" Height="2.3648893229166656" />
+        <EntityTypeShape EntityType="polendamusModel.Predicciones" Width="1.5" PointX="3" PointY="5.875" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="polendamusModel.Provincias" Width="1.5" PointX="0.75" PointY="3.875" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="polendamusModel.UrlsTiempo" Width="1.5" PointX="3" PointY="8.375" Height="1.7879850260416674" />
+        <AssociationConnector Association="polendamusModel.FK_Nivel_Planta" >
+          <ConnectorPoint PointX="2.25" PointY="1.8749995" />
+          <ConnectorPoint PointX="3.75" PointY="1.8749995" />
+          <ConnectorPoint PointX="3.75" PointY="2.75" />
+        </AssociationConnector>
+        <AssociationConnector Association="polendamusModel.FK_Nivel_Provincia" >
+          <ConnectorPoint PointX="2.25" PointY="4.4949446614583328" />
+          <ConnectorPoint PointX="3" PointY="4.4949446614583328" />
+        </AssociationConnector>
+        <AssociationConnector Association="polendamusModel.FK_Predicciones_Provincia" >
+          <ConnectorPoint PointX="1.5" PointY="5.8552864583333335" />
+          <ConnectorPoint PointX="1.5" PointY="6.7689925130208337" />
+          <ConnectorPoint PointX="1.8229191666666667" PointY="6.7689925130208328" />
+          <ConnectorPoint PointX="1.9895858333333332" PointY="6.7689925130208337" />
+          <ConnectorPoint PointX="3" PointY="6.7689925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="polendamusModel.FK_URL_Provincia" >
+          <ConnectorPoint PointX="1.9062525" PointY="5.8552864583333335" />
+          <ConnectorPoint PointX="1.9062525" PointY="9.2689925130208337" />
+          <ConnectorPoint PointX="3" PointY="9.2689925130208337" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="polendamusModel.Bocadillos" Width="1.5" PointX="5.375" PointY="0.75" Height="1.7879850260416665" />
+        <EntityTypeShape EntityType="polendamusModel.Dibujos" Width="1.5" PointX="5.375" PointY="3.75" Height="1.7879850260416674" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
